@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-#include "CircularInt.h"
+#include "CircularInt.hpp"
 
 CircularInt operator - (int i,  CircularInt obj)
 {
