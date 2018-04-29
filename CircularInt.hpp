@@ -96,6 +96,11 @@ public:
 		return output;
 	}
 
+	friend ostream &operator>>(ostream &output, const CircularInt &temp) {
+		output << temp.number;
+		return output;
+	}
+
 	friend CircularInt operator - (const int less, CircularInt &p)
 	{
 		CircularInt newCir(p.min, p.max);
