@@ -23,6 +23,21 @@ public:
 		this->max = y;
 	}
 
+	const CircularInt operator --(int)
+	{
+		CircularInt newone(*this);
+		int num;
+
+		if (number == min) {
+			num = max;
+		}
+		else {
+			num = number - 1;
+		}
+		number = num;
+		return newone;
+	}
+
 	const CircularInt operator ++(int)
 	{
 		CircularInt newone(*this);
@@ -31,8 +46,9 @@ public:
 		if (number == max) {
 			num = min;
 		}
-		else
+		else {
 			num = number + 1;
+		}
 		number = num;
 		return newone;
 	}
@@ -112,11 +128,7 @@ public:
 	CircularInt operator-(CircularInt &p)
 	{
 		CircularInt temp(*this);
-		/*temp = temp + (-p);
-		if (temp.number > max)
-		temp.number = temp.number%max;
-		CircularInt temp(p);
-		*/
+
 		int num = temp.number - p.number;
 
 		if (num < 0) {
@@ -132,24 +144,12 @@ public:
 		return temp;
 	}
 
-	CircularInt& operator += (int m) {
-		int num = (number + m) % max;
-		if (num == 0) {
-			number = max;
-		}
-		else
-		{
-			number = num;
-		}
-		return *this;
-	}
+
 
 	CircularInt operator+(CircularInt p)
 	{
 		CircularInt temp(p);
-		temp.number = number + p.number;
-		if (temp.number > 12)
-			temp.number = temp.number%max;
+		temp = temp + p.number;
 
 		return temp;
 	}
@@ -157,9 +157,11 @@ public:
 	CircularInt operator+(int a)
 	{
 		CircularInt temp(min, max);
-		temp.number = number + a;
-		if (temp.number > 12)
-			temp.number = temp.number%max;
+		if ((number + a) % max == 0)
+			temp.number = max;
+		else {
+			temp.number = (number + a) % max;
+		}
 
 		return temp;
 	}
@@ -174,6 +176,46 @@ public:
 		return temp;
 	}
 
+	CircularInt& operator += (int m) {
+		CircularInt temp(*this);
+		temp = temp + m;
+
+		this->number = temp.number;
+		return *this;
+	}
+
+	CircularInt operator * (int m) {
+		CircularInt temp(*this);
+
+		int num = (temp.number*m) % max;
+		if (num == 0) {
+			temp.number = max;
+		}
+		else {
+			temp.number = num;
+		}
+
+		return temp;
+	}
+
+	CircularInt operator *(CircularInt& p) {
+		CircularInt temp(*this);
+		temp = temp * p.number;
+
+		return temp;
+	}
+
+	CircularInt& operator *=(CircularInt& p) {
+		int num = (number * p.number) % max;
+		if (num == 0) {
+			number = max;
+		}
+		else {
+			number = num;
+		}
+		return *this;
+	}
+
 	CircularInt& operator *=(int m) {
 		int num = (number * m) % max;
 		if (num == 0) {
@@ -184,6 +226,7 @@ public:
 		}
 		return *this;
 	}
+
 	int operator /=(int m) {
 		int num = (number / m) % max;
 		if (num == 0) {
