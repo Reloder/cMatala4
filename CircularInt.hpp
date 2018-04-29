@@ -144,6 +144,32 @@ public:
 		return temp;
 	}
 
+	CircularInt operator -=(int m) {
+		int sum, num = number - m;
+		num = num % (max)+min;
+		if (num > 0) {
+			sum = num;
+		}
+		else
+			sum = max + num;
+
+		number = sum;
+		return *this;
+	}
+
+	CircularInt operator -=(CircularInt& p) {
+		int sum, num = number - p.number;
+		num = num % (max)+min;
+		if (num > 0) {
+			sum = num;
+		}
+		else
+			sum = max + num;
+
+		number = sum;
+		return *this;
+	}
+
 
 
 	CircularInt operator+(CircularInt p)
@@ -179,6 +205,14 @@ public:
 	CircularInt& operator += (int m) {
 		CircularInt temp(*this);
 		temp = temp + m;
+
+		this->number = temp.number;
+		return *this;
+	}
+
+	CircularInt& operator += (CircularInt& p) {
+		CircularInt temp(*this);
+		temp = temp + p.number;
 
 		this->number = temp.number;
 		return *this;
@@ -227,27 +261,26 @@ public:
 		return *this;
 	}
 
-	int operator /=(int m) {
+	friend CircularInt operator / (int d, CircularInt& p) {
+		CircularInt temp(p.min,p.max);
+		int num = d / p.number;
+		temp.number = num;
+
+		return temp;
+	}
+
+
+	CircularInt& operator /= (int m) {
+
 		int num = (number / m) % max;
 		if (num == 0) {
 			num = max;
 		}
-
-		return num;
-	}
-
-	CircularInt operator -=(int m) {
-		int sum, num = number - m;
-		num = num % (max)+min;
-		if (num > 0) {
-			sum = num;
-		}
-		else
-			sum = max + num;
-
-		number = sum;
+		number = num;
 		return *this;
 	}
+
+
 
 	bool operator == (CircularInt &p) {
 		return (this->number == p.number);
